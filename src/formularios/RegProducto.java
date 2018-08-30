@@ -1,0 +1,809 @@
+package formularios;
+
+
+import clases.Metodos;
+import conexion.ConexionMySQL;
+import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableRowSorter;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
+
+
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author Richard
+ */
+public class RegProducto extends javax.swing.JFrame {
+    
+DefaultComboBoxModel Nom_Pro;
+public static String imagenDireccion = "";
+    /**
+     * Creates new form InfProducto
+     */
+
+    public RegProducto() {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.getContentPane().setBackground(new Color(79,157,157));
+        CargarNombre();
+        cboNomRegPro.setEditable(true); //para poder escribir adentro
+        AutoCompleteDecorator.decorate(this.cboNomRegPro); 
+        cboTipoRegPro.setEditable(true); //para poder escribir adentro
+        AutoCompleteDecorator.decorate(this.cboTipoRegPro); 
+        cboMarcaRegPro.setEditable(true); //para poder escribir adentro
+        AutoCompleteDecorator.decorate(this.cboMarcaRegPro); 
+    }
+   
+    
+    void Borrar()
+    {
+        txtPlacaRegPro.setText("");
+        cboNomRegPro.setSelectedItem("Seleccione");
+        cboTipoRegPro.setSelectedItem("Seleccione");
+        cboMarcaRegPro.setSelectedItem("Seleccione");
+        txtModeloRegPro.setText("");
+        txtAnioRegPro.setText("");
+        txtColorRegPro.setText("");
+        txtValorRegPro.setText("");
+        
+    }
+
+    void CargarNombre()
+    {
+        try
+        {
+            String Nombre_Propietario;
+            String sSQL="";
+
+            Nom_Pro = new DefaultComboBoxModel();
+            ConexionMySQL mysql = new ConexionMySQL();
+            Connection cn = mysql.Conectar();
+
+            sSQL = "SELECT ci_cli FROM cliente";
+
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sSQL);
+
+            while (rs.next())
+            {
+                Nombre_Propietario = rs.getString("ci_cli");
+                Nom_Pro.addElement(Nombre_Propietario);
+            }
+            cboNomRegPro.setModel(Nom_Pro);
+
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    /////////////////////////////////////////////
+    void CargarNomApe(String NomApe)
+    {
+        try
+        {
+            String NombreP = "";
+            String NombreS = "";
+            String ApellidoP = "";
+            String ApellidoS = "";
+            String sSQL="";
+        
+            ConexionMySQL mysql = new ConexionMySQL();
+            Connection cn = mysql.Conectar();
+
+            sSQL = "SELECT pnom_cli, snom_cli, pape_cli, sape_cli  FROM cliente "
+                    + "WHERE CONCAT(ci_cli) LIKE '%"+NomApe+"%'";
+
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sSQL);
+
+            while(rs.next())
+            {
+                NombreP = rs.getString("pnom_cli");
+                NombreS = rs.getString("snom_cli");
+                ApellidoP = rs.getString("pape_cli");
+                ApellidoS = rs.getString("sape_cli");
+            }
+            lblDatCliNomPri.setText(NombreP);
+            lblDatCliNomSeg.setText(NombreS);
+            lblDatCliApePri.setText(ApellidoP);
+            lblDatCliApeSeg.setText(ApellidoS);   
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, e);
+        }  
+    }
+    
+    /////////////////////////////////////////////
+    
+    boolean ValidarLetras(String palabra){
+        for(int i = 0; i < palabra.length(); i++){
+            if(!((palabra.charAt(i) > 64 && palabra.charAt(i) < 91) || (palabra.charAt(i) > 96 && palabra.charAt(i) < 123)))
+                return false;
+        }
+        return true;
+    }
+    
+    boolean ValidarNum(String palabra){
+        for(int i = 0; i < palabra.length(); i++){
+            if(!((palabra.charAt(i) > 43 && palabra.charAt(i) < 58)))
+                return false;
+        }
+        return true;
+    } 
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        lblTitRegPro = new javax.swing.JLabel();
+        lblIconoRegPro = new javax.swing.JLabel();
+        pnlCedRegPro = new javax.swing.JPanel();
+        cboNomRegPro = new javax.swing.JComboBox();
+        pnlRegRegPro = new javax.swing.JPanel();
+        lblTipoRegPro = new javax.swing.JLabel();
+        lblModeloRegPro = new javax.swing.JLabel();
+        lblMarcaRegPro = new javax.swing.JLabel();
+        lblAnioRegPro = new javax.swing.JLabel();
+        lblColorRegPro = new javax.swing.JLabel();
+        lblValorRegPro = new javax.swing.JLabel();
+        cboTipoRegPro = new javax.swing.JComboBox();
+        txtModeloRegPro = new javax.swing.JTextField();
+        txtAnioRegPro = new javax.swing.JTextField();
+        txtColorRegPro = new javax.swing.JTextField();
+        txtValorRegPro = new javax.swing.JTextField();
+        lblPlacaRegPro = new javax.swing.JLabel();
+        txtPlacaRegPro = new javax.swing.JTextField();
+        cboMarcaRegPro = new javax.swing.JComboBox();
+        btnVerRegPro = new javax.swing.JButton();
+        btnCarRegPro = new javax.swing.JButton();
+        btnCanRegPro = new javax.swing.JButton();
+        btnSalRegPro = new javax.swing.JButton();
+        btnGuaRegPro = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        lblDatCliNomPri = new javax.swing.JLabel();
+        lblDatCliNomSeg = new javax.swing.JLabel();
+        lblDatCliApePri = new javax.swing.JLabel();
+        lblDatCliApeSeg = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AVENDAÑO AGENCIA DE SEGUROS");
+        setName("frmRegProducto"); // NOI18N
+
+        lblTitRegPro.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lblTitRegPro.setText("DATOS DEL VEHÍCULO ");
+
+        lblIconoRegPro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/producto.png"))); // NOI18N
+
+        pnlCedRegPro.setBackground(new java.awt.Color(79, 157, 157));
+        pnlCedRegPro.setBorder(javax.swing.BorderFactory.createTitledBorder("Cédula Propietario"));
+
+        cboNomRegPro.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
+        cboNomRegPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboNomRegProActionPerformed(evt);
+            }
+        });
+        cboNomRegPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cboNomRegProKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlCedRegProLayout = new javax.swing.GroupLayout(pnlCedRegPro);
+        pnlCedRegPro.setLayout(pnlCedRegProLayout);
+        pnlCedRegProLayout.setHorizontalGroup(
+            pnlCedRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(cboNomRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        pnlCedRegProLayout.setVerticalGroup(
+            pnlCedRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCedRegProLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cboNomRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
+        );
+
+        pnlRegRegPro.setBackground(new java.awt.Color(79, 157, 157));
+        pnlRegRegPro.setBorder(javax.swing.BorderFactory.createTitledBorder("Registro De Datos"));
+
+        lblTipoRegPro.setText("Tipo *");
+
+        lblModeloRegPro.setText(" Modelo *");
+
+        lblMarcaRegPro.setText("Marca *");
+
+        lblAnioRegPro.setText("Año *");
+
+        lblColorRegPro.setText("Color *");
+
+        lblValorRegPro.setText("Valor Actual *");
+
+        cboTipoRegPro.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Sedan", "Hatchback", "Convertible", "Coupe", "Deportivo", "Jeep", "CabinaSimple4x2 ", "CabinaDoble4x2", "CabinaSimple4x4 ", "CabinaDoble4x4" }));
+        cboTipoRegPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTipoRegProActionPerformed(evt);
+            }
+        });
+
+        txtModeloRegPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtModeloRegProKeyTyped(evt);
+            }
+        });
+
+        txtAnioRegPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAnioRegProActionPerformed(evt);
+            }
+        });
+        txtAnioRegPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtAnioRegProKeyTyped(evt);
+            }
+        });
+
+        txtColorRegPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtColorRegProActionPerformed(evt);
+            }
+        });
+        txtColorRegPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtColorRegProKeyTyped(evt);
+            }
+        });
+
+        txtValorRegPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtValorRegProKeyTyped(evt);
+            }
+        });
+
+        lblPlacaRegPro.setText("Placa *");
+
+        txtPlacaRegPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPlacaRegProActionPerformed(evt);
+            }
+        });
+        txtPlacaRegPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPlacaRegProKeyTyped(evt);
+            }
+        });
+
+        cboMarcaRegPro.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Audi", "BMW", "BYD", "Changhe", "Chery", "Chevrolet", "Citroën", "Dodge", "Dongfeng", "DS", "FAW", "Fiat", "Ford", "Foton", "Great Wall", "Haval", "Honda", "Hyundai", "JAC Motors", "Jeep", "Jinbei", "Kia", "King Long", "Mahindra", "Mazda", "Mercedes Benz", "MINI", "Mitsubishi", "Nissan", "Peugeot", "Porsche", "Renault", "Skoda", "Suzuki", "Tata", "Toyota", "Volkswagen", "Zotye" }));
+        cboMarcaRegPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboMarcaRegProActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlRegRegProLayout = new javax.swing.GroupLayout(pnlRegRegPro);
+        pnlRegRegPro.setLayout(pnlRegRegProLayout);
+        pnlRegRegProLayout.setHorizontalGroup(
+            pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlRegRegProLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnlRegRegProLayout.createSequentialGroup()
+                        .addGroup(pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblTipoRegPro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblMarcaRegPro, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                            .addComponent(lblPlacaRegPro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addGroup(pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtPlacaRegPro, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                            .addComponent(cboTipoRegPro, 0, 0, Short.MAX_VALUE)
+                            .addComponent(cboMarcaRegPro, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(pnlRegRegProLayout.createSequentialGroup()
+                        .addComponent(lblModeloRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtModeloRegPro)))
+                .addGap(25, 25, 25)
+                .addGroup(pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(pnlRegRegProLayout.createSequentialGroup()
+                        .addGroup(pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblColorRegPro, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                            .addComponent(lblAnioRegPro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(23, 23, 23)
+                        .addGroup(pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtColorRegPro, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(txtAnioRegPro)))
+                    .addGroup(pnlRegRegProLayout.createSequentialGroup()
+                        .addComponent(lblValorRegPro, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtValorRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(30, 30, 30))
+        );
+        pnlRegRegProLayout.setVerticalGroup(
+            pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlRegRegProLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblPlacaRegPro)
+                        .addComponent(txtPlacaRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblAnioRegPro)
+                    .addComponent(txtAnioRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTipoRegPro)
+                    .addComponent(cboTipoRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblColorRegPro)
+                    .addComponent(txtColorRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblMarcaRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboMarcaRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblValorRegPro)
+                    .addComponent(txtValorRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addGroup(pnlRegRegProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblModeloRegPro)
+                    .addComponent(txtModeloRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17))
+        );
+
+        btnVerRegPro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/imagenVehiculo.jpg"))); // NOI18N
+        btnVerRegPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerRegProActionPerformed(evt);
+            }
+        });
+
+        btnCarRegPro.setBackground(new java.awt.Color(79, 157, 157));
+        btnCarRegPro.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnCarRegPro.setText("Imagen Vehículo");
+        btnCarRegPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarRegProActionPerformed(evt);
+            }
+        });
+
+        btnCanRegPro.setBackground(new java.awt.Color(79, 157, 157));
+        btnCanRegPro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
+        btnCanRegPro.setText("CANCELAR");
+        btnCanRegPro.setMaximumSize(new java.awt.Dimension(122, 33));
+        btnCanRegPro.setMinimumSize(new java.awt.Dimension(122, 33));
+        btnCanRegPro.setPreferredSize(new java.awt.Dimension(122, 33));
+        btnCanRegPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCanRegProActionPerformed(evt);
+            }
+        });
+
+        btnSalRegPro.setBackground(new java.awt.Color(79, 157, 157));
+        btnSalRegPro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/salida.png"))); // NOI18N
+        btnSalRegPro.setText("SALIR");
+        btnSalRegPro.setMaximumSize(new java.awt.Dimension(122, 33));
+        btnSalRegPro.setMinimumSize(new java.awt.Dimension(122, 33));
+        btnSalRegPro.setPreferredSize(new java.awt.Dimension(122, 33));
+        btnSalRegPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalRegProActionPerformed(evt);
+            }
+        });
+
+        btnGuaRegPro.setBackground(new java.awt.Color(79, 157, 157));
+        btnGuaRegPro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
+        btnGuaRegPro.setText("GUARDAR");
+        btnGuaRegPro.setMaximumSize(new java.awt.Dimension(122, 33));
+        btnGuaRegPro.setMinimumSize(new java.awt.Dimension(122, 33));
+        btnGuaRegPro.setPreferredSize(new java.awt.Dimension(122, 33));
+        btnGuaRegPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuaRegProActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(79, 157, 157));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Propietario"));
+
+        lblDatCliNomPri.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+
+        lblDatCliNomSeg.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+
+        lblDatCliApePri.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+
+        lblDatCliApeSeg.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblDatCliNomPri, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDatCliNomSeg, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDatCliApePri, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDatCliApeSeg, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDatCliNomPri, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDatCliNomSeg, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDatCliApePri, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDatCliApeSeg, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(pnlRegRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnCarRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnVerRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblIconoRegPro)
+                                    .addComponent(pnlCedRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(87, 87, 87)
+                                        .addComponent(lblTitRegPro))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(btnGuaRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(btnCanRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(btnSalRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(lblIconoRegPro)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pnlCedRegPro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnlRegRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(lblTitRegPro)
+                        .addGap(86, 86, 86)
+                        .addComponent(btnVerRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
+                        .addComponent(btnCarRegPro)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCanRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuaRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void cboNomRegProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNomRegProActionPerformed
+        // TODO add your handling code here:
+        String NomApe = cboNomRegPro.getSelectedItem().toString();
+        CargarNomApe(NomApe);
+    }//GEN-LAST:event_cboNomRegProActionPerformed
+
+    private void txtColorRegProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColorRegProActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtColorRegProActionPerformed
+
+    private void btnVerRegProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerRegProActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerRegProActionPerformed
+
+    private void btnCarRegProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarRegProActionPerformed
+        // TODO add your handling code here:
+        //this.dispose();
+        ImgProducto ImgProductoJF = new ImgProducto();
+        ImgProductoJF.setVisible(true);
+    }//GEN-LAST:event_btnCarRegProActionPerformed
+
+    private void btnCanRegProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCanRegProActionPerformed
+        // TODO add your handling code here:
+        Borrar();
+        System.out.println("Imagen direccion :--->" + RegProducto.imagenDireccion);
+    }//GEN-LAST:event_btnCanRegProActionPerformed
+
+    private void btnSalRegProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalRegProActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnSalRegProActionPerformed
+
+    private void txtAnioRegProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAnioRegProActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAnioRegProActionPerformed
+
+    private void btnGuaRegProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuaRegProActionPerformed
+        // TODO add your handling code here:
+        try
+        {
+            ConexionMySQL mysql = new ConexionMySQL();
+            Connection cn = mysql.Conectar();
+
+            String sSQL="";
+            String Mensaje="";
+
+            String Codigo_V;
+            String Tipo;
+            String Marca;
+            String Modelo;
+            String Anio;
+            String Color;
+            String Valor;
+            String Propietario;
+            String imagen = Metodos.datosImagen(ImgProducto.fichero);
+
+            Codigo_V =  txtPlacaRegPro.getText();
+            Tipo = cboTipoRegPro.getSelectedItem().toString();
+            Marca = cboMarcaRegPro.getSelectedItem().toString();
+            Modelo = txtModeloRegPro.getText();
+            Anio = txtAnioRegPro.getText();
+            Color = txtColorRegPro.getText();
+            Valor = txtValorRegPro.getText();
+            
+            Propietario = cboNomRegPro.getSelectedItem().toString();
+            
+            
+
+            if(Codigo_V.equals("")||Tipo.equals("")||Marca.equals("")||Modelo.equals("")||Color.equals("")||Valor.equals("")){
+                JOptionPane.showMessageDialog(null, "Llene todos los campos requeridos");
+            }
+            else{
+                if(ValidarNum(Anio)==false||ValidarLetras(Tipo)==false||ValidarLetras(Marca)==false
+                    ||ValidarLetras(Color)==false||ValidarNum(Valor)==false){
+                    JOptionPane.showMessageDialog(null, "Campos llenos de manera incorrecta");
+                }
+
+                else{
+                    
+                    try
+                    {
+                        sSQL = "INSERT INTO vehiculo( matri_vehi,tip, mar, modelo, anio, col, val,  nom_pro, imagen )" +
+                         "value(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+                        Mensaje ="DATOS GUARDADOS DE FORMA CORRECTA";
+
+                        PreparedStatement pst = cn.prepareStatement(sSQL);
+                    
+                        pst.setString(1, Codigo_V);
+                        pst.setString(2, Tipo);
+                        pst.setString(3, Marca);
+                        pst.setString(4, Modelo);
+                        pst.setString(5, Anio);
+                        pst.setString(6, Color);
+                        pst.setString(7, Valor);
+                        pst.setString(8, Propietario);
+                        pst.setString(9, imagen);
+                        
+                        int n = pst.executeUpdate();
+
+                        if(n>0)
+                            {
+                                JOptionPane.showMessageDialog(null, Mensaje);
+                            }
+                       
+                    }catch(com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e) 
+                    {
+                        JOptionPane.showMessageDialog(null, "La Placa ya esta registrada");
+                    }
+                   Borrar();
+
+                }
+                        
+            }
+                
+
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_btnGuaRegProActionPerformed
+
+    private void txtPlacaRegProKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacaRegProKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+            if(Character.isLowerCase(c))
+            {
+                String cad = (""+c).toUpperCase();
+                c=cad.charAt(0);
+                evt.setKeyChar(c);
+                
+            }
+    }//GEN-LAST:event_txtPlacaRegProKeyTyped
+
+    private void txtColorRegProKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtColorRegProKeyTyped
+        // TODO add your handling code here:
+         String texto = txtColorRegPro.getText();
+        if(texto.length()>0){
+            char primeraletra = texto.charAt(0);
+            texto = Character.toUpperCase(primeraletra)+texto.substring(1, texto.length());
+            txtColorRegPro.setText(texto);
+        }    
+    }//GEN-LAST:event_txtColorRegProKeyTyped
+
+    private void txtModeloRegProKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtModeloRegProKeyTyped
+        // TODO add your handling code here:
+        String texto = txtModeloRegPro.getText();
+        if(texto.length()>0){
+            char primeraletra = texto.charAt(0);
+            texto = Character.toUpperCase(primeraletra)+texto.substring(1, texto.length());
+            txtModeloRegPro.setText(texto);
+        }    
+      
+    }//GEN-LAST:event_txtModeloRegProKeyTyped
+
+    private void txtAnioRegProKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAnioRegProKeyTyped
+        // TODO add your handling code here:
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(rootPane, "Ingrese solo Números");
+        }
+    }//GEN-LAST:event_txtAnioRegProKeyTyped
+
+    private void cboNomRegProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cboNomRegProKeyReleased
+        // TODO add your handling code here:
+     
+    }//GEN-LAST:event_cboNomRegProKeyReleased
+
+    private void txtValorRegProKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValorRegProKeyTyped
+        // TODO add your handling code here:
+         char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(rootPane, "Ingrese solo Números");
+        }
+    }//GEN-LAST:event_txtValorRegProKeyTyped
+
+    private void cboTipoRegProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipoRegProActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboTipoRegProActionPerformed
+
+    private void cboMarcaRegProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMarcaRegProActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboMarcaRegProActionPerformed
+
+    private void txtPlacaRegProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlacaRegProActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPlacaRegProActionPerformed
+
+    /**
+     * Permite guardar la imagen obtenida
+     */
+//    public String datosImagen() throws IOException
+//    {
+//        File fichero = ImgProducto.fichero;
+//        BufferedImage img = ImageIO.read(new File(fichero.toString()));
+//        String image_string = Metodos.encodeToString(img);
+//        return image_string;
+//        
+//        Metodos.datosImagen(ImgProducto.fichero)
+//    }
+//   
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(RegProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(RegProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(RegProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(RegProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new RegProducto().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCanRegPro;
+    private javax.swing.JButton btnCarRegPro;
+    private javax.swing.JButton btnGuaRegPro;
+    private javax.swing.JButton btnSalRegPro;
+    private javax.swing.JButton btnVerRegPro;
+    private javax.swing.JComboBox cboMarcaRegPro;
+    private javax.swing.JComboBox cboNomRegPro;
+    private javax.swing.JComboBox cboTipoRegPro;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblAnioRegPro;
+    private javax.swing.JLabel lblColorRegPro;
+    private javax.swing.JLabel lblDatCliApePri;
+    private javax.swing.JLabel lblDatCliApeSeg;
+    private javax.swing.JLabel lblDatCliNomPri;
+    private javax.swing.JLabel lblDatCliNomSeg;
+    private javax.swing.JLabel lblIconoRegPro;
+    private javax.swing.JLabel lblMarcaRegPro;
+    private javax.swing.JLabel lblModeloRegPro;
+    private javax.swing.JLabel lblPlacaRegPro;
+    private javax.swing.JLabel lblTipoRegPro;
+    private javax.swing.JLabel lblTitRegPro;
+    private javax.swing.JLabel lblValorRegPro;
+    private javax.swing.JPanel pnlCedRegPro;
+    private javax.swing.JPanel pnlRegRegPro;
+    private javax.swing.JTextField txtAnioRegPro;
+    private javax.swing.JTextField txtColorRegPro;
+    private javax.swing.JTextField txtModeloRegPro;
+    private javax.swing.JTextField txtPlacaRegPro;
+    private javax.swing.JTextField txtValorRegPro;
+    // End of variables declaration//GEN-END:variables
+}
