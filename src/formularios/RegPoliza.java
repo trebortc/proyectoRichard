@@ -9,12 +9,15 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -610,6 +613,14 @@ public class RegPoliza extends javax.swing.JFrame {
 
                 else{
                     
+                    //Validar que no exista ingresado un vehiculo con esa poliza
+                    if(verificarPolizaIngresadaPlaca(Placa))
+                    {
+                        JOptionPane.showMessageDialog(null,"No se puede grabar porque ya existe ingresado una poliza con esa placa");
+                        return;
+                    }
+                    
+                    
                     //Validacion adicional de la fecha de emision que no puede ser anterior a la fecha actual
                     String dia= cboEmiDiaRegPol.getSelectedItem().toString();
                     String mes= cboEmiMesRegPol.getSelectedItem().toString();
@@ -807,5 +818,26 @@ public class RegPoliza extends javax.swing.JFrame {
                 calcularValorPrima();
             }
         });
+    }
+    
+    private Boolean verificarPolizaIngresadaPlaca(String placa)
+    {
+        try {
+            ConexionMySQL mysql = new ConexionMySQL();
+            Connection cn = mysql.Conectar();
+
+            String sSQL = "SELECT * FROM poliza WHERE num_pla='"+placa+"'";
+
+            Statement st = (Statement) cn.createStatement();
+            ResultSet rs = st.executeQuery(sSQL);
+
+            while(rs.next())
+            {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RegPoliza.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }
