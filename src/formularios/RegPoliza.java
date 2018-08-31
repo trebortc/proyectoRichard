@@ -4,12 +4,17 @@ package formularios;
 import clases.SessionAvendano;
 import conexion.ConexionMySQL;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -25,7 +30,9 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  * @author Richard
  */
 public class RegPoliza extends javax.swing.JFrame {
-DefaultComboBoxModel Poliza, Placa, Nom_Pro;
+    DefaultComboBoxModel Poliza, Placa, Nom_Pro;
+    private Map<String,Integer> mapPlacaValor;
+    
     /**
      * Creates new form InfPoliza
      */
@@ -42,6 +49,9 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
         AutoCompleteDecorator.decorate(this.cboPlaRegPol);
         cboAseRegPol.setEditable(true); //para poder escribir adentro
         AutoCompleteDecorator.decorate(this.cboAseRegPol);
+        agregarListerComboPlaca();
+        agregarListenerPorcentaje();
+        cboPlaRegPol.setSelectedIndex(0);
     }
     void Cargar_Nombre()
     {
@@ -79,14 +89,16 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
         try
         {
             String Placa_V;
+            Integer valorVehiculo;
             String sSQL="";
 
             ConexionMySQL mysql = new ConexionMySQL();
             Connection cn = mysql.Conectar();
 
             Placa = new DefaultComboBoxModel();
+            mapPlacaValor=new HashMap<String,Integer>();
 
-            sSQL = "SELECT matri_vehi FROM vehiculo";
+            sSQL = "SELECT matri_vehi,val FROM vehiculo";
 
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sSQL);
@@ -94,7 +106,10 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
             while(rs.next())
             {
                 Placa_V = rs.getString("matri_vehi");
+                valorVehiculo=rs.getInt("val");
                 Placa.addElement(Placa_V);
+                mapPlacaValor.put(Placa_V, valorVehiculo);
+                
             }
             cboPlaRegPol.setModel(Placa);
 
@@ -205,6 +220,7 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
         txtValorRegPol = new javax.swing.JTextField();
         cboAseRegPol = new javax.swing.JComboBox();
         btnMostrarRegPol = new javax.swing.JButton();
+        txtPorcentajePrima = new javax.swing.JTextField();
         btnCancelarRegPol = new javax.swing.JButton();
         btnGuardarRegPol = new javax.swing.JButton();
         btnSalirRegPol = new javax.swing.JButton();
@@ -278,7 +294,7 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
 
         cboFirAnioRegPol.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "a", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", " " }));
 
-        lblValPriRegPol.setText("Valor Prima *");
+        lblValPriRegPol.setText("Valor Prima * %");
 
         txtValorRegPol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -302,6 +318,8 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
             }
         });
 
+        txtPorcentajePrima.setText("4");
+
         javax.swing.GroupLayout pnlDatRegPolLayout = new javax.swing.GroupLayout(pnlDatRegPol);
         pnlDatRegPol.setLayout(pnlDatRegPolLayout);
         pnlDatRegPolLayout.setHorizontalGroup(
@@ -312,12 +330,20 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
                     .addComponent(btnMostrarRegPol, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlDatRegPolLayout.createSequentialGroup()
                         .addGroup(pnlDatRegPolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblFecEmiRegPol)
-                            .addComponent(lblNumRegPol)
-                            .addComponent(lblValPriRegPol))
-                        .addGap(20, 20, 20)
+                            .addGroup(pnlDatRegPolLayout.createSequentialGroup()
+                                .addGroup(pnlDatRegPolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblFecEmiRegPol)
+                                    .addComponent(lblNumRegPol))
+                                .addGap(32, 32, 32))
+                            .addGroup(pnlDatRegPolLayout.createSequentialGroup()
+                                .addComponent(lblValPriRegPol)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtPorcentajePrima, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(pnlDatRegPolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtValorRegPol, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlDatRegPolLayout.createSequentialGroup()
+                                .addComponent(txtValorRegPol, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(pnlDatRegPolLayout.createSequentialGroup()
                                 .addGroup(pnlDatRegPolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtNumRegPol, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -376,7 +402,8 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
                 .addGap(20, 20, 20)
                 .addGroup(pnlDatRegPolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblValPriRegPol)
-                    .addComponent(txtValorRegPol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtValorRegPol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPorcentajePrima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnMostrarRegPol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -602,7 +629,23 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
                         return;
                     }
                     
+                    /**
+                     * Validar que las fecha de vigencia no pueda ser menor que un año
+                     */  
+                    Date fechaVigencia=sdf.parse(anio+"-"+mes+"-"+dia);
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(fechaActual);
+                    cal.add(Calendar.YEAR,-1);
+                    Date fechaActualMenosAnio = cal.getTime();
                     
+                    if(fechaVigencia.compareTo(fechaActualMenosAnio)<0)
+                    {
+                        JOptionPane.showMessageDialog(null,"La fecha de vigencia no puede ser menor que a 1 año");
+                        return;
+                    }
+                    
+                    
+                    /////////////////////////////////////////////
                     try
                     {
                                           
@@ -731,6 +774,38 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
     private javax.swing.JPanel pnlDatRegPol;
     private javax.swing.JPanel pnlPlaRegPol;
     private javax.swing.JTextField txtNumRegPol;
+    private javax.swing.JTextField txtPorcentajePrima;
     private javax.swing.JTextField txtValorRegPol;
     // End of variables declaration//GEN-END:variables
+
+    private void agregarListerComboPlaca() {
+        cboPlaRegPol.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calcularValorPrima();
+            }
+        });
+    }
+    
+    private void calcularValorPrima()
+    {
+        String placa = cboPlaRegPol.getSelectedItem().toString();
+        if (placa != null) {
+            Integer valor = mapPlacaValor.get(placa);
+            if (valor != null) {
+                Integer porcentaje = Integer.parseInt(txtPorcentajePrima.getText());
+                Double prima = ((double) (porcentaje * valor) / (double) 100);
+                txtValorRegPol.setText(prima.toString());
+            }
+        }
+    }
+
+    private void agregarListenerPorcentaje() {
+        txtPorcentajePrima.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calcularValorPrima();
+            }
+        });
+    }
 }
