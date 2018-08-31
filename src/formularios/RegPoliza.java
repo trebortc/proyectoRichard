@@ -51,7 +51,8 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
             ConexionMySQL mysql = new ConexionMySQL();
             Connection cn = mysql.Conectar();
 
-            sSQL = "SELECT ci_cli FROM cliente";
+            //Solo hace la consulta de los clientes con estado de activo
+            sSQL = "SELECT ci_cli FROM cliente where estado='A'";
 
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sSQL);
