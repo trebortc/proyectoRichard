@@ -4,11 +4,14 @@ package formularios;
 import clases.Metodos;
 import conexion.ConexionMySQL;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
@@ -29,9 +32,14 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  * @author Richard
  */
 public class ModProducto extends javax.swing.JFrame {
-DefaultTableModel Producto;
-public boolean bandera;
-private TableRowSorter tr;
+    
+    DefaultTableModel Producto;
+    public boolean bandera;
+    private TableRowSorter tr;
+    public String imagen = null;
+    public String imagen2 = null;
+    public String imagen3 = null;
+    public String imagen4 = null;
     /**
      * Creates new form ModProducto
      */
@@ -61,10 +69,26 @@ private TableRowSorter tr;
                     txtColorModPro.setText(tblModProd.getValueAt(fila, 6).toString());
                     txtValorModPro.setText(tblModProd.getValueAt(fila, 7).toString());
                     try{
-                        String imagen = tblModProd.getValueAt(fila, 8).toString();
-                        if(imagen != null)
+                        imagen = null;imagen2 = null;imagen3 = null;imagen4 = null;
+                        if(tblModProd.getValueAt(fila, 8) != null && tblModProd.getValueAt(fila, 9) != null && tblModProd.getValueAt(fila, 10) != null && tblModProd.getValueAt(fila, 11) != null){
+                             
+                            imagen = tblModProd.getValueAt(fila, 8).toString();
+                            imagen2 = tblModProd.getValueAt(fila, 9).toString();
+                            imagen3 = tblModProd.getValueAt(fila, 10).toString();
+                            imagen4 = tblModProd.getValueAt(fila, 11).toString();
+                        }else{
+                            btnVerModPro.setIcon(null);
+                            jButton1.setIcon(null);
+                            jButton2.setIcon(null);
+                            jButton3.setIcon(null);
+                        }
+                        
+                        if(imagen != null && imagen2 != null && imagen3 != null && imagen4 != null)
                         {
                             Metodos.cargarImagen(imagen, btnVerModPro);
+                            Metodos.cargarImagen(imagen2, jButton1);
+                            Metodos.cargarImagen(imagen3, jButton2);
+                            Metodos.cargarImagen(imagen4, jButton3);  
                         }
                     }catch(Exception exc)
                     {
@@ -83,15 +107,15 @@ private TableRowSorter tr;
         try
         {
             String sSQL="";
-            String[] Titulos = {"CÉDULA", "PLACA", "TIPO", "MARCA", "MODELO", "AÑO", "COLOR", "VALOR ACTUAL",""};
-            String[] Datos = new String[9];
+            String[] Titulos = {"CÉDULA", "PLACA", "TIPO", "MARCA", "MODELO", "AÑO", "COLOR", "VALOR ACTUAL","","","",""};
+            String[] Datos = new String[12];
 
             Producto = new DefaultTableModel(null,Titulos);
 
             ConexionMySQL mysql = new ConexionMySQL();
             Connection cn = mysql.Conectar();
 
-            sSQL = "SELECT nom_pro, tip, mar, modelo, anio, col, val, matri_vehi, imagen FROM vehiculo "
+            sSQL = "SELECT nom_pro, tip, mar, modelo, anio, col, val, matri_vehi, imagen, imagen2, imagen3, imagen4 FROM vehiculo "
                     + "WHERE CONCAT(matri_vehi) LIKE '%"+Informacion+"%'";
 
             Statement st = cn.createStatement();
@@ -108,11 +132,17 @@ private TableRowSorter tr;
                 Datos[6] = rs.getString("col");
                 Datos[7] = rs.getString("val");
                 Datos[8] = rs.getString("imagen");
+                Datos[9] = rs.getString("imagen2");
+                Datos[10] = rs.getString("imagen3");
+                Datos[11] = rs.getString("imagen4");
 
                 Producto.addRow(Datos);
             }
             tblModProd.setModel(Producto);
             tblModProd.getColumnModel().getColumn(8).setPreferredWidth(0);
+            tblModProd.getColumnModel().getColumn(9).setPreferredWidth(0);
+            tblModProd.getColumnModel().getColumn(10).setPreferredWidth(0);
+            tblModProd.getColumnModel().getColumn(11).setPreferredWidth(0);
 
 
         }
@@ -136,12 +166,15 @@ private TableRowSorter tr;
             String Color = "";
             String Valor = "";
             String Propietario = "";
-            String imagen = "";
+            imagen = "";
+            imagen2 = "";
+            imagen3 = "";
+            imagen4 = "";
 
             ConexionMySQL mysql = new ConexionMySQL();
             Connection cn = mysql.Conectar();
 
-            sSQL = "SELECT mar, modelo, anio, col, val, matri_vehi, imagen FROM vehiculo "
+            sSQL = "SELECT mar, modelo, anio, col, val, matri_vehi, imagen, imagen2, imagen3, imagen4 FROM vehiculo "
                     + "WHERE CONCAT(matri_vehi) LIKE '%"+Datos_Producto+"%'";
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sSQL);
@@ -155,9 +188,19 @@ private TableRowSorter tr;
                 Anio = rs.getString("anio");
                 Color = rs.getString("col");
                 Valor = rs.getString("val");
-                imagen = rs.getString("imagen");
-
-              
+                if(rs.getString("imagen") != null){
+                    imagen = rs.getString("imagen");
+                }
+                if(rs.getString("imagen2") != null){
+                    imagen2 = rs.getString("imagen2");
+                }
+                if(rs.getString("imagen3") != null){
+                    imagen3 = rs.getString("imagen3");
+                }
+                if(rs.getString("imagen4") != null){
+                    imagen4 = rs.getString("imagen4");
+                }
+ 
             }
             txtPlacaModPro.setText(Codigo_V);
             //txtMarcaModPro.setText(Marca);
@@ -168,6 +211,26 @@ private TableRowSorter tr;
             if(imagen != null)
             {
                 Metodos.cargarImagen(imagen, btnVerModPro);
+            }else{
+                btnVerModPro.setIcon(null);
+            }
+            if(imagen2 != null)
+            {
+                Metodos.cargarImagen(imagen2, jButton1);
+            }else{
+                jButton1.setIcon(null);
+            }
+            if(imagen3 != null)
+            {
+                Metodos.cargarImagen(imagen3, jButton2);
+            }else{
+                jButton2.setIcon(null);
+            }
+            if(imagen4 != null)
+            {
+                Metodos.cargarImagen(imagen4, jButton3);
+            }else{
+                jButton3.setIcon(null);
             }
         }
         catch(Exception e)
@@ -242,6 +305,12 @@ private TableRowSorter tr;
         btnSalModPro = new javax.swing.JButton();
         lblIconoModPro = new javax.swing.JLabel();
         btnMostarModPro = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        btnCarModPro2 = new javax.swing.JButton();
+        btnCarModPro3 = new javax.swing.JButton();
+        btnCarModPro4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
@@ -283,7 +352,7 @@ private TableRowSorter tr;
                 .addGap(18, 18, 18)
                 .addComponent(btnMosModPro)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(scpModProd, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE)
+            .addComponent(scpModProd)
         );
         pnlMosModProLayout.setVerticalGroup(
             pnlMosModProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -436,7 +505,7 @@ private TableRowSorter tr;
         });
 
         btnCarModPro.setBackground(new java.awt.Color(79, 157, 157));
-        btnCarModPro.setText("Imagen Vehículo");
+        btnCarModPro.setText("Imagen parte frontal");
         btnCarModPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCarModProActionPerformed(evt);
@@ -493,37 +562,79 @@ private TableRowSorter tr;
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/imagenVehiculo.jpg"))); // NOI18N
+        jButton1.setBorder(null);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/imagenVehiculo.jpg"))); // NOI18N
+        jButton2.setBorder(null);
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/imagenVehiculo.jpg"))); // NOI18N
+        jButton3.setBorder(null);
+
+        btnCarModPro2.setText("Imagen lateral izquierda");
+        btnCarModPro2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarModPro2ActionPerformed(evt);
+            }
+        });
+
+        btnCarModPro3.setText("Imagen lateral derecha");
+        btnCarModPro3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarModPro3ActionPerformed(evt);
+            }
+        });
+
+        btnCarModPro4.setText("Imagen trasera vehiculo");
+        btnCarModPro4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarModPro4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlMosModPro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(lblIconoModPro)
                         .addGap(45, 45, 45)
-                        .addComponent(lblTitModPro))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(pnlInfModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnVerModPro, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCarModPro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
+                        .addComponent(lblTitModPro)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnModModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(btnMostarModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(btnCanModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
-                        .addComponent(btnSalModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(pnlMosModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnSalModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(208, 208, 208)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(pnlInfModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnVerModPro, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCarModPro, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCarModPro2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                    .addComponent(btnCarModPro3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCarModPro4, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -537,20 +648,31 @@ private TableRowSorter tr;
                         .addComponent(lblTitModPro)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlMosModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlInfModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnVerModPro, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnCarModPro)))
-                .addGap(18, 18, 18)
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnVerModPro, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCarModPro)
+                            .addComponent(btnCarModPro2)
+                            .addComponent(btnCarModPro3)
+                            .addComponent(btnCarModPro4)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnlInfModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMostarModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCanModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalModPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -596,9 +718,16 @@ private TableRowSorter tr;
                 String Anio = txtAnioModPro.getText();
                 String Color = txtColorModPro.getText();
                 String Valor = txtValorModPro.getText();
-                String imagen = null;
+                imagen = null;
+                imagen2 = null;
+                imagen3 = null;
+                imagen4 = null;
+                
                 if (bandera){
                     imagen = Metodos.datosImagen(ImgProducto.fichero);
+                    imagen2 = Metodos.datosImagen(ImgProducto2.fichero);
+                    imagen3 = Metodos.datosImagen(ImgProducto3.fichero);
+                    imagen4 = Metodos.datosImagen(ImgProducto4.fichero);
                 }
                 
                 ConexionMySQL mysql = new ConexionMySQL();
@@ -621,8 +750,8 @@ private TableRowSorter tr;
                     sSQL = sSQL+ "WHERE matri_vehi = '"+Codigo_V+"'";
                 }
                 else{
-                    sSQL = "UPDATE vehiculo SET tip = '"+Tipo+"', mar = '"+Marca+"', modelo = '"+Modelo+"', anio='"+Anio+"', col='"+Color+"', val='"+Valor+"', imagen='"+imagen+"'";
-                    sSQL = sSQL+ "WHERE matri_vehi = '"+Codigo_V+"'";
+                    sSQL = "UPDATE vehiculo SET tip = '"+Tipo+"', mar = '"+Marca+"', modelo = '"+Modelo+"', anio='"+Anio+"', col='"+Color+"', val='"+Valor+"', imagen='"+imagen+"', imagen2='"+imagen2+"', imagen3='"+imagen3+"', imagen4='"+imagen4+"'";
+                    sSQL = sSQL+ " WHERE matri_vehi = '"+Codigo_V+"'";
                 }
                 Mensaje ="DATOS MODIFICADOS DE FORMA CORRECTA";
                 Statement st = cn.createStatement();
@@ -740,6 +869,27 @@ private TableRowSorter tr;
         // TODO add your handling code here:
     }//GEN-LAST:event_cboMarcaModProActionPerformed
 
+    private void btnCarModPro2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarModPro2ActionPerformed
+        // TODO add your handling code here:
+        bandera = true;
+        ImgProducto2 ImgProductoJF = new ImgProducto2();
+        ImgProductoJF.setVisible(true); 
+    }//GEN-LAST:event_btnCarModPro2ActionPerformed
+
+    private void btnCarModPro3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarModPro3ActionPerformed
+        // TODO add your handling code here:
+        bandera = true;
+        ImgProducto3 ImgProductoJF = new ImgProducto3();
+        ImgProductoJF.setVisible(true); 
+    }//GEN-LAST:event_btnCarModPro3ActionPerformed
+
+    private void btnCarModPro4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarModPro4ActionPerformed
+        // TODO add your handling code here:
+        bandera = true;
+        ImgProducto4 ImgProductoJF = new ImgProducto4();
+        ImgProductoJF.setVisible(true); 
+    }//GEN-LAST:event_btnCarModPro4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -778,6 +928,9 @@ private TableRowSorter tr;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCanModPro;
     private javax.swing.JButton btnCarModPro;
+    private javax.swing.JButton btnCarModPro2;
+    private javax.swing.JButton btnCarModPro3;
+    private javax.swing.JButton btnCarModPro4;
     private javax.swing.JButton btnModModPro;
     private javax.swing.JButton btnMosModPro;
     private javax.swing.JButton btnMostarModPro;
@@ -785,6 +938,9 @@ private TableRowSorter tr;
     private javax.swing.JButton btnVerModPro;
     private javax.swing.JComboBox cboMarcaModPro;
     private javax.swing.JComboBox cboTipModPro;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel lblAnioModPro;
     private javax.swing.JLabel lblColorModPro;
     private javax.swing.JLabel lblIconoModPro;

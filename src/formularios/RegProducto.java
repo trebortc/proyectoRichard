@@ -196,6 +196,9 @@ public static String imagenDireccion = "";
         lblDatCliNomSeg = new javax.swing.JLabel();
         lblDatCliApePri = new javax.swing.JLabel();
         lblDatCliApeSeg = new javax.swing.JLabel();
+        btnCarRegPro2 = new javax.swing.JButton();
+        btnCarRegPro3 = new javax.swing.JButton();
+        btnCarRegPro4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
@@ -387,7 +390,7 @@ public static String imagenDireccion = "";
 
         btnCarRegPro.setBackground(new java.awt.Color(79, 157, 157));
         btnCarRegPro.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnCarRegPro.setText("Imagen Vehículo");
+        btnCarRegPro.setText("Imagen parte frontal");
         btnCarRegPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCarRegProActionPerformed(evt);
@@ -467,6 +470,30 @@ public static String imagenDireccion = "";
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnCarRegPro2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnCarRegPro2.setText("Imagen lateral izquierda");
+        btnCarRegPro2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarRegPro2ActionPerformed(evt);
+            }
+        });
+
+        btnCarRegPro3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnCarRegPro3.setText("Imagen lateral derecha");
+        btnCarRegPro3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarRegPro3ActionPerformed(evt);
+            }
+        });
+
+        btnCarRegPro4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnCarRegPro4.setText("Imagen trasera vehiculo");
+        btnCarRegPro4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarRegPro4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -475,13 +502,15 @@ public static String imagenDireccion = "";
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(pnlRegRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnCarRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnVerRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnCarRegPro, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                                    .addComponent(btnCarRegPro2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnCarRegPro3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnCarRegPro4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblIconoRegPro)
@@ -492,7 +521,9 @@ public static String imagenDireccion = "";
                                         .addComponent(lblTitRegPro))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnVerRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(74, 74, 74)
                         .addComponent(btnGuaRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -500,7 +531,7 @@ public static String imagenDireccion = "";
                         .addComponent(btnCanRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(btnSalRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(20, 20, 20))
+                .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -508,20 +539,29 @@ public static String imagenDireccion = "";
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addComponent(lblIconoRegPro)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblIconoRegPro))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(lblTitRegPro)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(pnlCedRegPro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlRegRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(lblTitRegPro)
-                        .addGap(86, 86, 86)
+                        .addGap(24, 24, 24)
                         .addComponent(btnVerRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
-                        .addComponent(btnCarRegPro)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCarRegPro)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCarRegPro2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCarRegPro3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCarRegPro4)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCanRegPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -588,7 +628,10 @@ public static String imagenDireccion = "";
             String Valor;
             String Propietario;
             String imagen = Metodos.datosImagen(ImgProducto.fichero);
-
+            String imagen2 = Metodos.datosImagen(ImgProducto2.fichero);
+            String imagen3 = Metodos.datosImagen(ImgProducto3.fichero);
+            String imagen4 = Metodos.datosImagen(ImgProducto4.fichero);
+            
             Codigo_V =  txtPlacaRegPro.getText();
             Tipo = cboTipoRegPro.getSelectedItem().toString();
             Marca = cboMarcaRegPro.getSelectedItem().toString();
@@ -601,7 +644,7 @@ public static String imagenDireccion = "";
             
             
 
-            if(Codigo_V.equals("")||Tipo.equals("")||Marca.equals("")||Modelo.equals("")||Color.equals("")||Valor.equals("")){
+            if(Codigo_V.equals("")||Tipo.equals("")||Marca.equals("")||Modelo.equals("")||Color.equals("")||Valor.equals("")||imagen.equals("")||imagen2.equals("")||imagen3.equals("")||imagen4.equals("")){
                 JOptionPane.showMessageDialog(null, "Llene todos los campos requeridos");
             }
             else{
@@ -614,8 +657,8 @@ public static String imagenDireccion = "";
                     
                     try
                     {
-                        sSQL = "INSERT INTO vehiculo( matri_vehi,tip, mar, modelo, anio, col, val,  nom_pro, imagen )" +
-                         "value(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        sSQL = "INSERT INTO vehiculo( matri_vehi,tip, mar, modelo, anio, col, val,  nom_pro, imagen, imagen2, imagen3, imagen4 )" +
+                         "value(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                         Mensaje ="DATOS GUARDADOS DE FORMA CORRECTA";
 
@@ -630,6 +673,9 @@ public static String imagenDireccion = "";
                         pst.setString(7, Valor);
                         pst.setString(8, Propietario);
                         pst.setString(9, imagen);
+                        pst.setString(10, imagen2);
+                        pst.setString(11, imagen3);
+                        pst.setString(12, imagen4);
                         
                         int n = pst.executeUpdate();
 
@@ -652,7 +698,7 @@ public static String imagenDireccion = "";
         }
         catch(Exception e)
         {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Carge todas las imagenes");
         }
     }//GEN-LAST:event_btnGuaRegProActionPerformed
 
@@ -726,6 +772,24 @@ public static String imagenDireccion = "";
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPlacaRegProActionPerformed
 
+    private void btnCarRegPro2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarRegPro2ActionPerformed
+        // TODO add your handling code here:
+        ImgProducto2 ImgProductoJF = new ImgProducto2();
+        ImgProductoJF.setVisible(true);
+    }//GEN-LAST:event_btnCarRegPro2ActionPerformed
+
+    private void btnCarRegPro3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarRegPro3ActionPerformed
+        // TODO add your handling code here:
+        ImgProducto3 ImgProductoJF = new ImgProducto3();
+        ImgProductoJF.setVisible(true);
+    }//GEN-LAST:event_btnCarRegPro3ActionPerformed
+
+    private void btnCarRegPro4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarRegPro4ActionPerformed
+        // TODO add your handling code here:
+        ImgProducto4 ImgProductoJF = new ImgProducto4();
+        ImgProductoJF.setVisible(true);
+    }//GEN-LAST:event_btnCarRegPro4ActionPerformed
+
     /**
      * Permite guardar la imagen obtenida
      */
@@ -778,6 +842,9 @@ public static String imagenDireccion = "";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCanRegPro;
     private javax.swing.JButton btnCarRegPro;
+    private javax.swing.JButton btnCarRegPro2;
+    private javax.swing.JButton btnCarRegPro3;
+    private javax.swing.JButton btnCarRegPro4;
     private javax.swing.JButton btnGuaRegPro;
     private javax.swing.JButton btnSalRegPro;
     private javax.swing.JButton btnVerRegPro;
