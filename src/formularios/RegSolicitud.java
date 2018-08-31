@@ -665,6 +665,7 @@ DefaultComboBoxModel Poliza;
         }
         catch(Exception e)
         {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al ingresar el número de solicitud");
         }
     }//GEN-LAST:event_btnGuaRegSolActionPerformed
