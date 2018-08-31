@@ -116,16 +116,16 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblNumBusPol" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="btnBusBusPol" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnSalBusPol" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="cboBusPol" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtBusPol" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                              <Component id="btnBusBusPol" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnSalBusPol" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
                       </Group>
+                      <Component id="lblNumBusPol" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   <Component id="scpBusPol" min="-2" pref="268" max="-2" attributes="0"/>

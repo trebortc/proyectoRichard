@@ -1,6 +1,7 @@
 package formularios;
 
 
+import clases.SessionAvendano;
 import conexion.ConexionMySQL;
 import com.sun.glass.events.KeyEvent;
 import java.awt.AlphaComposite;
@@ -76,17 +77,19 @@ public class IngresoSistema extends javax.swing.JFrame {
                     ingreso.setVisible(true);
                     ingreso.pack();
                     MenuAdmin.lblUsuAdmConectado.setText(usuario);
+                    SessionAvendano.nickSession=usuario;
         
                 
             }
             if(cap.equals("Agente"))
             {
-            this.setVisible(false);
+                this.setVisible(false);
                     JOptionPane.showMessageDialog(null, "Bienvenido");
                     MenuUsuario ingresos = new MenuUsuario();
                     ingresos.setVisible(true);
                     ingresos.pack();
                     MenuUsuario.lblUsuUsuConectado.setText(usuario);
+                    SessionAvendano.nickSession=usuario;
             }
             if((!cap.equals("Administrador"))&& (!cap.equals("Agente")))
             {

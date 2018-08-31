@@ -55,6 +55,10 @@ private TableRowSorter tr;
             txtCiuModCli.setText(tblModCli.getValueAt(fila, 8).toString());
             txtDirModCli.setText(tblModCli.getValueAt(fila, 9).toString());
             txtMailModCli.setText(tblModCli.getValueAt(fila, 10).toString());
+            
+            String estadoStr=tblModCli.getValueAt(fila, 11).toString();
+            cmbEstado.setSelectedItem((estadoStr.equals("A"))?"Activo":"Inactivo");
+            
      }
     }
     });
@@ -67,16 +71,16 @@ private TableRowSorter tr;
         try
         {
             String sSQL="";
-            String[] Titulos = {"CÉDULA", "PRI. NOMBRE", "SEG. NOMBBRE", "PRI. APELLIDO", "SEG. APELLIDO", "FECHA NACIMIENTO", "GÉNERO", "TELÉFONO", "CIUDAD", "DIRECCIÓN", "MAIL"};
+            String[] Titulos = {"CÉDULA", "PRI. NOMBRE", "SEG. NOMBBRE", "PRI. APELLIDO", "SEG. APELLIDO", "FECHA NACIMIENTO", "GÉNERO", "TELÉFONO", "CIUDAD", "DIRECCIÓN", "MAIL","ESTADO"};
             //Object[] Datos = new Object[9];
-            Object Datos[]= new Object[11];
+            Object Datos[]= new Object[12];
             
             Cliente = new DefaultTableModel(null,Titulos);
 
             ConexionMySQL mysql = new ConexionMySQL();
             Connection cn = mysql.Conectar();
 
-            sSQL = "SELECT ci_cli, pnom_cli, snom_cli, pape_cli, sape_cli, fec_nac, gen, telf, ciu, dir, mail FROM cliente "
+            sSQL = "SELECT ci_cli, pnom_cli, snom_cli, pape_cli, sape_cli, fec_nac, gen, telf, ciu, dir, mail,estado FROM cliente "
                     + "WHERE CONCAT(ci_cli) LIKE '%"+Informacion+"%'";
 
             Statement st = cn.createStatement();
@@ -95,6 +99,7 @@ private TableRowSorter tr;
                         Datos[8] = rs.getString("ciu");
                         Datos[9] = rs.getString("dir");
                         Datos[10] = rs.getString("mail");                     
+                        Datos[11] = rs.getString("estado");                     
 
                         Cliente.addRow(Datos);
             }
@@ -102,6 +107,7 @@ private TableRowSorter tr;
         }
         catch(Exception e)
         {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, e);
         }
     }
@@ -240,6 +246,8 @@ private TableRowSorter tr;
         txtSegNomModCli = new javax.swing.JTextField();
         txtPriApeModCli = new javax.swing.JTextField();
         txtSegApeModCli = new javax.swing.JTextField();
+        lblSegNomModCli1 = new javax.swing.JLabel();
+        cmbEstado = new javax.swing.JComboBox<>();
         btnModCli = new javax.swing.JButton();
         btnMostrarCli = new javax.swing.JButton();
         btnCanModCli = new javax.swing.JButton();
@@ -430,6 +438,10 @@ private TableRowSorter tr;
             }
         });
 
+        lblSegNomModCli1.setText("Estado:");
+
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+
         javax.swing.GroupLayout pnlInfModCliLayout = new javax.swing.GroupLayout(pnlInfModCli);
         pnlInfModCli.setLayout(pnlInfModCliLayout);
         pnlInfModCliLayout.setHorizontalGroup(
@@ -462,11 +474,6 @@ private TableRowSorter tr;
                             .addComponent(txtPriApeModCli, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))))
                 .addGroup(pnlInfModCliLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlInfModCliLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(lblSegNomModCli, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtSegNomModCli, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlInfModCliLayout.createSequentialGroup()
                         .addGroup(pnlInfModCliLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlInfModCliLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
@@ -486,7 +493,18 @@ private TableRowSorter tr;
                             .addComponent(txtTelModCli, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dtpFecNacModCli, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtMailModCli, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pnlInfModCliLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlInfModCliLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlInfModCliLayout.createSequentialGroup()
+                                .addComponent(lblSegNomModCli1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlInfModCliLayout.createSequentialGroup()
+                                .addComponent(lblSegNomModCli, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtSegNomModCli, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(10, 10, 10))
         );
         pnlInfModCliLayout.setVerticalGroup(
@@ -494,8 +512,10 @@ private TableRowSorter tr;
             .addGroup(pnlInfModCliLayout.createSequentialGroup()
                 .addGroup(pnlInfModCliLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCedModCli)
-                    .addComponent(txtCedModCli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
+                    .addComponent(txtCedModCli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSegNomModCli1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
                 .addGroup(pnlInfModCliLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPriNomModCli, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPriNomModCli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -707,6 +727,7 @@ private TableRowSorter tr;
                     String Direccion;
                     String Telefono;
                     String Mail;
+                    String Estado;
 
                     Cedula_C = txtCedModCli.getText();
                     Nombre_P = txtPriNomModCli.getText();
@@ -719,6 +740,7 @@ private TableRowSorter tr;
                     Direccion = txtDirModCli.getText();
                     Telefono = txtTelModCli.getText();
                     Mail =  txtMailModCli.getText();
+                    Estado=cmbEstado.getSelectedItem().toString().substring(0,1);
 
                     ConexionMySQL mysql = new ConexionMySQL();
                     Connection cn = mysql.Conectar();
@@ -737,7 +759,7 @@ private TableRowSorter tr;
 
                         else{
 
-                    sSQL = "UPDATE cliente SET  pnom_cli = '"+Nombre_P+"', snom_cli = '"+Nombre_S+"', pape_cli = '"+Apellido_P+"', sape_cli = '"+Apellido_S+"', fec_nac = '"+Fecha +"', gen = '"+Genero+"', telf = '"+Telefono+"', ciu = '"+Ciudad+"', dir = '"+Direccion+"', mail = '"+Mail+"'" ;
+                    sSQL = "UPDATE cliente SET  pnom_cli = '"+Nombre_P+"', snom_cli = '"+Nombre_S+"', pape_cli = '"+Apellido_P+"', sape_cli = '"+Apellido_S+"', fec_nac = '"+Fecha +"', gen = '"+Genero+"', telf = '"+Telefono+"', ciu = '"+Ciudad+"', dir = '"+Direccion+"', mail = '"+Mail+"', estado= '"+Estado+"'" ;
                     sSQL = sSQL+ "WHERE  ci_cli = '"+Cedula_C+"'";
 
                     Mensaje ="DATOS MODIFICADOS DE FORMA CORRECTA";
@@ -914,6 +936,7 @@ private TableRowSorter tr;
     private javax.swing.JButton btnMostrarCli;
     private javax.swing.JButton btnSalModCli;
     private javax.swing.JComboBox<String> cboGenModCli;
+    private javax.swing.JComboBox<String> cmbEstado;
     private com.toedter.calendar.JDateChooser dtpFecNacModCli;
     private javax.swing.JLabel lblCedModCli;
     private javax.swing.JLabel lblCiuModCli;
@@ -926,6 +949,7 @@ private TableRowSorter tr;
     private javax.swing.JLabel lblPriNomModCli;
     private javax.swing.JLabel lblSegApeModCli;
     private javax.swing.JLabel lblSegNomModCli;
+    private javax.swing.JLabel lblSegNomModCli1;
     private javax.swing.JLabel lblTelModCli;
     private javax.swing.JLabel lblTituloModCli;
     private javax.swing.JPanel pnlInfModCli;
