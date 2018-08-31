@@ -52,6 +52,7 @@ public class ModProducto extends javax.swing.JFrame {
         AutoCompleteDecorator.decorate(this.cboTipModPro); 
         cboMarcaModPro.setEditable(true); //para poder escribir adentro
         AutoCompleteDecorator.decorate(this.cboMarcaModPro);
+        
         //jTblReservaciones.getColumnModel().getColumn(7).setPreferredWidth(0);
         
         tblModProd.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
