@@ -6,8 +6,11 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -74,6 +77,7 @@ DefaultComboBoxModel Poliza;
         }
         catch(Exception e)
         {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, e);
         }
     }
@@ -195,6 +199,7 @@ DefaultComboBoxModel Poliza;
         }
         catch(Exception e)
         {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, e);
         }  
     }
@@ -247,6 +252,28 @@ DefaultComboBoxModel Poliza;
                 return false;
         }
         return true;
+    }
+    
+    private Boolean verificarPolizaIngresadaPlaca(String poliza)
+    {
+        try {
+            ConexionMySQL mysql = new ConexionMySQL();
+            Connection cn = mysql.Conectar();
+
+            String sSQL = "SELECT * FROM solicitud WHERE num_poliza='"+poliza+"'";
+
+            Statement st = (Statement) cn.createStatement();
+            ResultSet rs = st.executeQuery(sSQL);
+
+            while(rs.next())
+            {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(RegPoliza.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     /**
@@ -635,6 +662,12 @@ DefaultComboBoxModel Poliza;
                     JOptionPane.showMessageDialog(null, "Campos llenos de manera incorrecta");
                 }
                 else{
+                    
+                    if(verificarPolizaIngresadaPlaca(Numero_Poliza))
+                    {
+                        JOptionPane.showMessageDialog(null,"No se puede grabar porque ya existe una solictud registrado con esa poliza");
+                        return ;
+                    }
 
                     sSQL = "INSERT INTO solicitud(num_poliza, num_solicitud, descripcion, fecha_d, fecha_m, fecha_a, hora, minuto, lugar, estado )"
                     + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
