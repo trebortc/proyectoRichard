@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -573,13 +575,33 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
                 Vig_D.equals("d")||Vig_M.equals("m")||Vig_A.equals("a")){
                 JOptionPane.showMessageDialog(null, "Llene todos los campos requeridos");
             }
-
             else{
                 if(ValidarNum(Numero_Pol)==false||ValidarNum(Valor_Pri)==false){
                     JOptionPane.showMessageDialog(null, "Campos llenos de manera incorrecta");
                 }
 
                 else{
+                    
+                    //Validacion adicional de la fecha de emision que no puede ser anterior a la fecha actual
+                    String dia= cboEmiDiaRegPol.getSelectedItem().toString();
+                    String mes= cboEmiMesRegPol.getSelectedItem().toString();
+                    String anio= cboEmiAnioRegPol.getSelectedItem().toString();
+                    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+                    
+                    java.util.Date fechaHoy = new Date();
+                    
+                    Date fechaEmision=sdf.parse(anio+"-"+mes+"-"+dia);
+                    Date fechaActual=sdf.parse(sdf.format(fechaHoy));
+                    
+                    //Si la fecha es menor que la de hoy lanzo una excepcion
+                    System.out.println(fechaEmision.compareTo(fechaHoy));
+                    if(fechaEmision.compareTo(fechaActual)<0)
+                    {
+                        JOptionPane.showMessageDialog(null,"La fecha de emision no puede ser menor a la fecha actual");
+                        return;
+                    }
+                    
+                    
                     try
                     {
                                           
