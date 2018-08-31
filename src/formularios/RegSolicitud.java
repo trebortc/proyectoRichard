@@ -65,7 +65,7 @@ DefaultComboBoxModel Poliza;
 
             sSQL = "SELECT num_poliza FROM poliza";
             
-            if(sSQL.isEmpty()){
+            if(!sSQL.isEmpty()){
                 Statement st = cn.createStatement();
                 ResultSet rs = st.executeQuery(sSQL);
 
@@ -624,8 +624,8 @@ DefaultComboBoxModel Poliza;
     private void cboNumPolSolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNumPolSolActionPerformed
         // TODO add your handling code here:
         try{
-            String Fecha = cboNumPolSol.getSelectedItem().toString();
-            CargarFecha(Fecha);
+            //String Fecha = cboNumPolSol.getSelectedItem().toString();
+            //CargarFecha(Fecha);
             lblFecFirSol.setVisible(true);
             lblFecVigSol.setVisible(true);
         }catch(Exception e)

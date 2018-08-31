@@ -14,6 +14,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -109,7 +112,7 @@ DefaultTableModel modelo;
             modelo.removeRow(0);
         }
         String sql = "SELECT * FROM poliza";
-        Object Datos[]= new Object[14];
+        Object Datos[]= new Object[15];
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -128,12 +131,29 @@ DefaultTableModel modelo;
                         Datos[11] = rs.getString("val_pri");
                         Datos[12] = rs.getString("nom_cli");
                         Datos[13] = rs.getString("num_pla"); 
+                        
+                        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+                        Date fechaVigencia=sdf.parse(Datos[10]+"-"+Datos[9]+"-"+Datos[8]);
+
+                        java.util.Date fechaHoy = new Date();
+                        Date fechaActual=sdf.parse(sdf.format(fechaHoy));
+                        
+                        if(fechaVigencia.compareTo(fechaActual)>0)
+                        {
+                            Datos[14] = "VIGENTE"; 
+                        }
+                        else
+                        {
+                            Datos[14] = "NO VIGENTE"; 
+                        }
   
                 modelo.addRow(Datos);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConSolicitud.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (ParseException ex) {
+        Logger.getLogger(ConPoliza.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
     
    
@@ -210,11 +230,11 @@ DefaultTableModel modelo;
 
             },
             new String [] {
-                "No. PÓLIZA", "ASEGURADORA", "DÍA EMISIÓN", "MES EMISIÓN", "AÑO EMISIÓN", "DÍA FIRMA", "MES FIRMA", "AÑO FIRMA", "DÍA VIGENCIA", "MES VIGENCIA", "AÑO VIGENCIA", "VALOR PRIMA", "CÉDULA", "PLACA"
+                "No. PÓLIZA", "ASEGURADORA", "DÍA EMISIÓN", "MES EMISIÓN", "AÑO EMISIÓN", "DÍA FIRMA", "MES FIRMA", "AÑO FIRMA", "DÍA VIGENCIA", "MES VIGENCIA", "AÑO VIGENCIA", "VALOR PRIMA", "CÉDULA", "PLACA", "VIGENCIA"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, true, true, true, true
+                false, false, false, false, false, false, false, false, false, false, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -265,11 +285,11 @@ DefaultTableModel modelo;
                         .addComponent(btnExpConPol)
                         .addGap(20, 20, 20)
                         .addComponent(btnSalExpConPol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 439, Short.MAX_VALUE))
+                .addGap(0, 289, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(scpConSol, javax.swing.GroupLayout.DEFAULT_SIZE, 1251, Short.MAX_VALUE)
+                    .addComponent(scpConSol, javax.swing.GroupLayout.DEFAULT_SIZE, 1101, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
@@ -293,11 +313,11 @@ DefaultTableModel modelo;
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSalExpConPol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnExpConPol, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(395, 395, 395))
+                .addContainerGap(316, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(148, 148, 148)
-                    .addComponent(scpConSol, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+                    .addComponent(scpConSol, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -330,7 +350,7 @@ DefaultTableModel modelo;
                    
                 //style.
                 String[] titulos = {"No. PÓLIZA", "ASEGURADORA", "DÍA EMISIÓN", "MES EMISIÓN", "AÑO EMISIÓN",
-                            "DÍA FIRMA", "MES FIRMA","AÑO FIRMA", "DÍA VIGENCIA", "MES VIGENCIA", "AÑO VIGENCIA", "VALOR PRIMA", "CÉDULA", "PLACA"};
+                            "DÍA FIRMA", "MES FIRMA","AÑO FIRMA", "DÍA VIGENCIA", "MES VIGENCIA", "AÑO VIGENCIA", "VALOR PRIMA", "CÉDULA", "PLACA","VIGENCIA"};
                 HSSFRow fila = hoja.createRow(0);
                  // Creamos el encabezado
                 for(int i = 0; i < titulos.length; i++) {
@@ -367,6 +387,7 @@ DefaultTableModel modelo;
                         filas.createCell(11).setCellValue(tblExpConPol.getValueAt(i, 11).toString());
                         filas.createCell(12).setCellValue(tblExpConPol.getValueAt(i, 12).toString());
                         filas.createCell(13).setCellValue(tblExpConPol.getValueAt(i, 13).toString());
+                        filas.createCell(14).setCellValue(tblExpConPol.getValueAt(i, 14).toString());
                         
                         
                     }

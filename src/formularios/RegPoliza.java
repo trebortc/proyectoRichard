@@ -643,13 +643,18 @@ public class RegPoliza extends javax.swing.JFrame {
                     /**
                      * Validar que las fecha de vigencia no pueda ser menor que un año
                      */  
+                    String diaFirma= cboFirDiaRegPol.getSelectedItem().toString();
+                    String mesFirma= cboFirMesRegPol.getSelectedItem().toString();
+                    String anioFirma= cboFirAnioRegPol.getSelectedItem().toString();
+                    Date fechaFirma=sdf.parse(anioFirma+"-"+mesFirma+"-"+diaFirma);
+                    
                     dia = cboVigDiaRegPol.getSelectedItem().toString();
                     mes = cboVigMesRegPol.getSelectedItem().toString();
                     anio = cboVigAnioRegPol.getSelectedItem().toString();
                     
                     Date fechaVigencia=sdf.parse(anio+"-"+mes+"-"+dia);
                     Calendar cal = Calendar.getInstance();
-                    cal.setTime(fechaEmision);
+                    cal.setTime(fechaFirma);
                     
                     cal.add(Calendar.YEAR,1);
                     
@@ -659,7 +664,7 @@ public class RegPoliza extends javax.swing.JFrame {
                     
                     if(fechaVigencia.compareTo(fechaActualMasAnio)<0)
                     {
-                        JOptionPane.showMessageDialog(null,"La fecha de vigencia tiene que ser mayor que 1 año de la fecha de emisión");
+                        JOptionPane.showMessageDialog(null,"La fecha de vigencia tiene que ser mayor que 1 año de la fecha de firma");
                         return;
                     }
                     
