@@ -52,6 +52,7 @@ DefaultComboBoxModel Poliza;
         try
         {
             String Numero;
+            int num;
             String sSQL="";
 
             ConexionMySQL mysql = new ConexionMySQL();
@@ -60,21 +61,24 @@ DefaultComboBoxModel Poliza;
             Poliza = new DefaultComboBoxModel();
 
             sSQL = "SELECT num_poliza FROM poliza";
+            
+            if(sSQL.isEmpty()){
+                Statement st = cn.createStatement();
+                ResultSet rs = st.executeQuery(sSQL);
 
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sSQL);
-
-            while (rs.next())
-            {
-                Numero = rs.getString("num_poliza");
-                Poliza.addElement(Numero);
-
+                while (rs.next())
+                {
+                    //Numero = rs.getString("num_poliza");
+                    num = rs.getInt("num_poliza");
+                    Numero = String.valueOf(num);
+                    Poliza.addElement(Numero);
+                }
+                cboNumPolSol.setModel(Poliza);
             }
-            cboNumPolSol.setModel(Poliza);
         }
         catch(Exception e)
         {
-            JOptionPane.showMessageDialog(null, e);
+            //JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -195,7 +199,7 @@ DefaultComboBoxModel Poliza;
         }
         catch(Exception e)
         {
-            JOptionPane.showMessageDialog(null, e);
+            //JOptionPane.showMessageDialog(null, e);
         }  
     }
     
@@ -293,7 +297,7 @@ DefaultComboBoxModel Poliza;
         lblFirTitSol = new javax.swing.JLabel();
         lblVigTitSol = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
         setName("frmRegSolicitud"); // NOI18N
 
@@ -594,10 +598,15 @@ DefaultComboBoxModel Poliza;
 
     private void cboNumPolSolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNumPolSolActionPerformed
         // TODO add your handling code here:
-        String Fecha = cboNumPolSol.getSelectedItem().toString();
-        CargarFecha(Fecha);
-        lblFecFirSol.setVisible(true);
-        lblFecVigSol.setVisible(true);
+        try{
+            String Fecha = cboNumPolSol.getSelectedItem().toString();
+            CargarFecha(Fecha);
+            lblFecFirSol.setVisible(true);
+            lblFecVigSol.setVisible(true);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
         
     }//GEN-LAST:event_cboNumPolSolActionPerformed
 
@@ -665,7 +674,6 @@ DefaultComboBoxModel Poliza;
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al ingresar el número de solicitud");
         }
     }//GEN-LAST:event_btnGuaRegSolActionPerformed

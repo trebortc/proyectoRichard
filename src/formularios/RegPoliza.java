@@ -227,7 +227,7 @@ public class RegPoliza extends javax.swing.JFrame {
         pnlCedRegProPol = new javax.swing.JPanel();
         cboNomRegPol = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
         setName("frmRegPoliza"); // NOI18N
 

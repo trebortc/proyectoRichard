@@ -86,7 +86,7 @@ public class RegAseguradora extends javax.swing.JFrame {
         btnSalirRegAse = new javax.swing.JButton();
         btnGuardarRegAse = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
         setName("frmRegAseguradora"); // NOI18N
 

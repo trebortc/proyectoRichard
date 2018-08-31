@@ -140,7 +140,7 @@ DefaultTableModel modelo;
         cboExpConPro = new javax.swing.JComboBox<>();
         txtExpConPro = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblIconoFecRep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reporte.png"))); // NOI18N
 

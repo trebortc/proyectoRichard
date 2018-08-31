@@ -89,7 +89,7 @@ DefaultTableModel Proformas;
         tblMosInfPro = new javax.swing.JTable();
         btnSalirMosInfPro = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
 
         lblTitMosInfPro.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N

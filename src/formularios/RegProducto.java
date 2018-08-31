@@ -200,7 +200,7 @@ public static String imagenDireccion = "";
         btnCarRegPro3 = new javax.swing.JButton();
         btnCarRegPro4 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
         setName("frmRegProducto"); // NOI18N
 

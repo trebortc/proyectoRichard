@@ -142,7 +142,7 @@ public class ConCliente extends javax.swing.JFrame {
         txtExpConCli = new javax.swing.JTextField();
         btnExpConCli = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         pnlConSol.setBackground(new java.awt.Color(79, 157, 157));
 

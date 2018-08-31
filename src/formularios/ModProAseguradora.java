@@ -243,7 +243,7 @@ private TableRowSorter tr;
         tblModAse = new javax.swing.JTable();
         btnMosModAse = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblIconoRegProAse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoProforma.jpg"))); // NOI18N
 
