@@ -130,7 +130,7 @@ private TableRowSorter tr;
         lblNumAprSolicitud = new javax.swing.JLabel();
         lblNumAprrSolicitud = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
         setName("frmAprSolicitud"); // NOI18N
 

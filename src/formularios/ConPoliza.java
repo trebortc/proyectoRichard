@@ -173,7 +173,7 @@ DefaultTableModel modelo;
         cboExpConPol = new javax.swing.JComboBox<>();
         txtExpConPol = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
         setName("frmFecReporte"); // NOI18N
 

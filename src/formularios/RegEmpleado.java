@@ -109,7 +109,7 @@ public class RegEmpleado extends javax.swing.JFrame {
         btnCanInfPro = new javax.swing.JButton();
         btnSalInfPro = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
         setName("frmRegEmpleados"); // NOI18N
 

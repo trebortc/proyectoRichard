@@ -246,7 +246,7 @@ private TableRowSorter tr;
         btnCanModEmp = new javax.swing.JButton();
         btnSalModEmp = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblIconoModEmp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/empleados.png"))); // NOI18N
 

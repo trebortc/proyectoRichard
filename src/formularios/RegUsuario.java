@@ -182,7 +182,7 @@ DefaultComboBoxModel Ced_Emp;
         btnMosModPro = new javax.swing.JButton();
         btnModModEmp = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
         setName("frmLogin"); // NOI18N
 
@@ -195,7 +195,8 @@ DefaultComboBoxModel Ced_Emp;
 
         lblTipLogEmp.setText("Tipo de Usuario *");
 
-        cboTipLogEmp.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Administrador", "Agente" }));
+        cboTipLogEmp.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Administrador", "Agente", "Secretaria" }));
+        cboTipLogEmp.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cboTipLogEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboTipLogEmpActionPerformed(evt);

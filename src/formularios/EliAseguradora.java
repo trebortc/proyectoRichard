@@ -101,7 +101,7 @@ public class EliAseguradora extends javax.swing.JFrame {
         btnMosEliAse = new javax.swing.JButton();
         btnSalirEliAse = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
         setName("frmEliAseguradoras"); // NOI18N
 

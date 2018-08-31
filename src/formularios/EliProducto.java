@@ -82,7 +82,7 @@ DefaultTableModel Producto;
         tblEliPro = new javax.swing.JTable();
         lblIconoEliPro = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
 
         lblTitEliPro.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N

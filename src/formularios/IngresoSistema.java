@@ -91,7 +91,17 @@ public class IngresoSistema extends javax.swing.JFrame {
                     MenuUsuario.lblUsuUsuConectado.setText(usuario);
                     SessionAvendano.nickSession=usuario;
             }
-            if((!cap.equals("Administrador"))&& (!cap.equals("Agente")))
+            if(cap.equals("Secretaria"))
+            {
+                this.setVisible(false);
+                JOptionPane.showMessageDialog(null, "Bienvenido");
+                MenuSecretaria ingresos = new MenuSecretaria();
+                ingresos.setVisible(true);
+                ingresos.pack();
+                MenuSecretaria.lblUsuAdmConectado.setText(usuario);
+                SessionAvendano.nickSession=usuario;
+            }
+            if((!cap.equals("Administrador")) && (!cap.equals("Agente")) && (!cap.equals("Secretaria")))
             {
                 JOptionPane.showMessageDialog(this, "No existe sus datos");
             }

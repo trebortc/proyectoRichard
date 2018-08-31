@@ -104,7 +104,7 @@ DefaultTableModel Cliente;
         btnEliminarEliCli = new javax.swing.JButton();
         btnSalirEliCli = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
         setName("frmEliCliente"); // NOI18N
 

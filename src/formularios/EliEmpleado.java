@@ -103,7 +103,7 @@ DefaultTableModel Empleado;
         scpEliEmp = new javax.swing.JScrollPane();
         tblEliEmp = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
 
         lblTitEliEmp.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
