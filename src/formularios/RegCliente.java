@@ -95,6 +95,8 @@ public class RegCliente extends javax.swing.JFrame {
         txtSegNomCliente = new javax.swing.JTextField();
         txtPriApeCliente = new javax.swing.JTextField();
         txtSegApeCliente = new javax.swing.JTextField();
+        lblSegNomModCli1 = new javax.swing.JLabel();
+        cmbEstado = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AVENDAÑO AGENCIA DE SEGUROS");
@@ -257,6 +259,10 @@ public class RegCliente extends javax.swing.JFrame {
             }
         });
 
+        lblSegNomModCli1.setText("Estado:");
+
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+
         javax.swing.GroupLayout pnlInfClienteLayout = new javax.swing.GroupLayout(pnlInfCliente);
         pnlInfCliente.setLayout(pnlInfClienteLayout);
         pnlInfClienteLayout.setHorizontalGroup(
@@ -289,11 +295,6 @@ public class RegCliente extends javax.swing.JFrame {
                             .addComponent(txtPriApeCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))))
                 .addGroup(pnlInfClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlInfClienteLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(lblSegNomCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtSegNomCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlInfClienteLayout.createSequentialGroup()
                         .addGroup(pnlInfClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlInfClienteLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
@@ -313,7 +314,19 @@ public class RegCliente extends javax.swing.JFrame {
                             .addComponent(txtTelCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dtpFecNacCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtMailCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pnlInfClienteLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlInfClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlInfClienteLayout.createSequentialGroup()
+                                .addComponent(lblSegNomModCli1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(pnlInfClienteLayout.createSequentialGroup()
+                                .addComponent(lblSegNomCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtSegNomCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(10, 10, 10))
         );
         pnlInfClienteLayout.setVerticalGroup(
@@ -321,7 +334,10 @@ public class RegCliente extends javax.swing.JFrame {
             .addGroup(pnlInfClienteLayout.createSequentialGroup()
                 .addGroup(pnlInfClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCedCliente)
-                    .addComponent(txtCedCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCedCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlInfClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblSegNomModCli1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlInfClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPriNomCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -444,6 +460,7 @@ public class RegCliente extends javax.swing.JFrame {
             String Telefono;
             String Mail;
             String Genero;
+            String Estado;
                         
             Cedula_C = txtCedCliente.getText();
             Nombre_P = txtPriNomCliente.getText();
@@ -455,6 +472,9 @@ public class RegCliente extends javax.swing.JFrame {
             Telefono = txtTelCliente.getText();
             Mail =  txtMailCliente.getText();
             Genero = cboGenCliente.getSelectedItem().toString(); 
+            Estado=cmbEstado.getSelectedItem().toString().substring(0,1); //Obtiene la primera letra del estado
+            
+            
             
            
 
@@ -470,8 +490,8 @@ public class RegCliente extends javax.swing.JFrame {
                 else{
                     try
                     {
-                        sSQL = "INSERT INTO cliente(ci_cli, pnom_cli, snom_cli, pape_cli, sape_cli, fec_nac, gen, telf, ciu, dir, mail )" +
-                        "value(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        sSQL = "INSERT INTO cliente(ci_cli, pnom_cli, snom_cli, pape_cli, sape_cli, fec_nac, gen, telf, ciu, dir, mail,estado )" +
+                        "value(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                         Mensaje ="DATOS GUARDADOS DE FORMA CORRECTA";
 
@@ -488,6 +508,7 @@ public class RegCliente extends javax.swing.JFrame {
                         pst.setString(9, Ciudad);
                         pst.setString(10, Direccion);
                         pst.setString(11, Mail);
+                        pst.setString(12, Estado);
 
                         int n = pst.executeUpdate();
 
@@ -667,6 +688,7 @@ public class RegCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardarRegCli;
     private javax.swing.JButton btnSalirRegCli;
     private javax.swing.JComboBox<String> cboGenCliente;
+    private javax.swing.JComboBox<String> cmbEstado;
     private com.toedter.calendar.JDateChooser dtpFecNacCliente;
     private javax.swing.JLabel lblCedCliente;
     private javax.swing.JLabel lblCiuCliente;
@@ -679,6 +701,7 @@ public class RegCliente extends javax.swing.JFrame {
     private javax.swing.JLabel lblPriNomCliente;
     private javax.swing.JLabel lblSegApeCliente;
     private javax.swing.JLabel lblSegNomCliente;
+    private javax.swing.JLabel lblSegNomModCli1;
     private javax.swing.JLabel lblTelCliente;
     private javax.swing.JLabel lblTitRegCli;
     private javax.swing.JPanel pnlInfCliente;
