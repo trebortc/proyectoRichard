@@ -1,6 +1,7 @@
 package formularios;
 
 
+import clases.SessionAvendano;
 import conexion.ConexionMySQL;
 import java.awt.Color;
 import java.sql.Connection;
@@ -605,8 +606,8 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
                     try
                     {
                                           
-                        sSQL = "INSERT INTO poliza(num_poliza, aseg, emi_d, emi_m, emi_a, fir_d, fir_m, fir_a, vig_d, vig_m, vig_a, val_pri, nom_cli, num_pla)"
-                        + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        sSQL = "INSERT INTO poliza(num_poliza, aseg, emi_d, emi_m, emi_a, fir_d, fir_m, fir_a, vig_d, vig_m, vig_a, val_pri, nom_cli, num_pla,USUARIO_INGRESO)"
+                        + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         Mensaje = "DATOS GUARDADOS DE FORMA CORRECTA";
 
                         PreparedStatement pst = cn.prepareStatement(sSQL);
@@ -625,6 +626,7 @@ DefaultComboBoxModel Poliza, Placa, Nom_Pro;
                         pst.setString(12, Valor_Pri);
                         pst.setString(13, Cliente);
                         pst.setString(14, Placa);
+                        pst.setString(15,SessionAvendano.nickSession);
 
                         int n = pst.executeUpdate();
 

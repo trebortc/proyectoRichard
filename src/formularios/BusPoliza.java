@@ -84,15 +84,15 @@ private TableRowSorter tr;
         {
             String sSQL="";
 
-            String[] Titulos = {"No. PÓLIZA", "DÍA EMISIÓN", "MES EMISIÓN", "AÑO EMISIÓN","DÍA FIRMA", "MES FIRMA", "AÑO FIRMA", "DÍA VIGENCIA", "MES  VIGENCIA", "AÑO  VIGENCIA", "CÉDULA", "PLACA"};
-            String[] Datos = new String[12];
+            String[] Titulos = {"No. PÓLIZA", "DÍA EMISIÓN", "MES EMISIÓN", "AÑO EMISIÓN","DÍA FIRMA", "MES FIRMA", "AÑO FIRMA", "DÍA VIGENCIA", "MES  VIGENCIA", "AÑO  VIGENCIA", "CÉDULA", "PLACA","USUARIO REGISTRO"};
+            String[] Datos = new String[13];
 
             Poliza = new DefaultTableModel(null,Titulos);
             //Integer.parseInt(Solicitud);
             ConexionMySQL mysql = new ConexionMySQL();
             Connection cn = mysql.Conectar();
 
-            sSQL = "SELECT num_poliza, emi_d, emi_m, emi_a, fir_d, fir_m, fir_a, vig_d, vig_m, vig_a, nom_cli, num_pla FROM poliza "
+            sSQL = "SELECT num_poliza, emi_d, emi_m, emi_a, fir_d, fir_m, fir_a, vig_d, vig_m, vig_a, nom_cli, num_pla,usuario_ingreso FROM poliza "
                     + "WHERE CONCAT(num_poliza) LIKE '%"+Solicitud+"%' ";
           
 
@@ -113,6 +113,7 @@ private TableRowSorter tr;
                 Datos[9] = rs.getString("vig_a");
                 Datos[10] = rs.getString("nom_cli");
                 Datos[11] = rs.getString("num_pla");
+                Datos[12] = rs.getString("usuario_ingreso");
                         
                        
                 Poliza.addRow(Datos);
@@ -259,14 +260,14 @@ private TableRowSorter tr;
             pnlBusPolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBusPolLayout.createSequentialGroup()
                 .addGap(4, 4, 4)
-                .addGroup(pnlBusPolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNumBusPol)
+                .addGroup(pnlBusPolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBusPolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnBusBusPol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSalBusPol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlBusPolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cboBusPol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtBusPol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(pnlBusPolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnBusBusPol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSalBusPol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(txtBusPol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNumBusPol))
                 .addGap(16, 16, 16)
                 .addComponent(scpBusPol, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
