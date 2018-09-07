@@ -52,7 +52,9 @@ public class ModAseguradora extends javax.swing.JFrame {
             txtDirMod.setText(tblModificarAse.getValueAt(fila, 4).toString());
             txtTelMod.setText(tblModificarAse.getValueAt(fila, 5).toString());
             txtMailMod.setText(tblModificarAse.getValueAt(fila, 6).toString());
-                  
+            
+            String estadoLetra= tblModificarAse.getValueAt(fila, 7).toString();
+            cmbEstado.setSelectedItem(estadoLetra);
            
      }
     }
@@ -63,8 +65,8 @@ public class ModAseguradora extends javax.swing.JFrame {
     }
     void CargarTabla(String datos)
     {
-        String[] Titulos = {"CÓDIGO" ,"NOMBRE","GERENTE", "CIUDAD", "DIRECCIÓN", "TELÉFONO", "E-MAIL"};
-        String[] Informacion = new String[7];
+        String[] Titulos = {"CÓDIGO" ,"NOMBRE","GERENTE", "CIUDAD", "DIRECCIÓN", "TELÉFONO", "E-MAIL","ESTADO"};
+        String[] Informacion = new String[8];
 
         String sSQL="";
 
@@ -73,7 +75,7 @@ public class ModAseguradora extends javax.swing.JFrame {
         ConexionMySQL mysql = new ConexionMySQL();
         Connection cn = mysql.Conectar();
 
-        sSQL = "SELECT cod_emp, nom_emp, ger, ciu, dir, telf, mail FROM aseguradora " + "WHERE CONCAT(cod_emp) LIKE '%"+datos+"%'";
+        sSQL = "SELECT cod_emp, nom_emp, ger, ciu, dir, telf, mail,estado FROM aseguradora " + "WHERE CONCAT(cod_emp) LIKE '%"+datos+"%'";
 
         try
         {
@@ -89,6 +91,7 @@ public class ModAseguradora extends javax.swing.JFrame {
                 Informacion[4] = rs.getString("dir");
                 Informacion[5] = rs.getString("telf");
                 Informacion[6] = rs.getString("mail");
+                Informacion[7] = (rs.getString("estado").equals("A"))?"Activo":"Inactivo";
 
                 tabla.addRow(Informacion);
             }
@@ -114,11 +117,12 @@ public class ModAseguradora extends javax.swing.JFrame {
             String Gerente="";
             String Telefono="";
             String Mail="";
+            String Estado="";
 
             ConexionMySQL mysql = new ConexionMySQL();
             Connection cn = mysql.Conectar();
 
-            sSQL = "SELECT cod_emp, nom_emp, ciu, dir, ger, telf, mail FROM aseguradora " + "WHERE CONCAT(cod_emp) LIKE '%"+Informacion+"%'";
+            sSQL = "SELECT cod_emp, nom_emp, ciu, dir, ger, telf, mail,estado FROM aseguradora " + "WHERE CONCAT(cod_emp) LIKE '%"+Informacion+"%'";
 
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sSQL);
@@ -132,6 +136,7 @@ public class ModAseguradora extends javax.swing.JFrame {
                 Gerente = rs.getString("ger");
                 Telefono = rs.getString("telf");
                 Mail = rs.getString("mail");
+                Estado=rs.getString("estado");
             }
             
             txtCodEmpMod.setText( Codigo_Emp);
@@ -141,6 +146,7 @@ public class ModAseguradora extends javax.swing.JFrame {
             txtGerMod.setText( Gerente);
             txtTelMod.setText( Telefono);
             txtMailMod.setText( Mail);
+            cmbEstado.setSelectedItem(Estado);
 
         }
         catch(Exception e)
@@ -162,6 +168,7 @@ public class ModAseguradora extends javax.swing.JFrame {
         txtGerMod.setText("");
         txtTelMod.setText("");
         txtMailMod.setText("");
+        cmbEstado.setSelectedIndex(0);
     }
 
     boolean ValidarLetras(String palabra){
@@ -211,6 +218,8 @@ public class ModAseguradora extends javax.swing.JFrame {
         txtCodEmpMod = new javax.swing.JTextField();
         txtTelMod = new javax.swing.JTextField();
         txtMailMod = new javax.swing.JTextField();
+        lblMailRegAse1 = new javax.swing.JLabel();
+        cmbEstado = new javax.swing.JComboBox<>();
         btnModAse = new javax.swing.JButton();
         btnMostarModAse = new javax.swing.JButton();
         btnCancelarModAse = new javax.swing.JButton();
@@ -336,6 +345,10 @@ public class ModAseguradora extends javax.swing.JFrame {
             }
         });
 
+        lblMailRegAse1.setText("Estado");
+
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+
         javax.swing.GroupLayout pnlDatosModAseLayout = new javax.swing.GroupLayout(pnlDatosModAse);
         pnlDatosModAse.setLayout(pnlDatosModAseLayout);
         pnlDatosModAseLayout.setHorizontalGroup(
@@ -358,9 +371,11 @@ public class ModAseguradora extends javax.swing.JFrame {
                     .addGroup(pnlDatosModAseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(lblGerMod, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblTelMod, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblMailMod, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblMailMod, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMailRegAse1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlDatosModAseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtMailMod, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                     .addComponent(txtTelMod)
                     .addComponent(txtGerMod, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -398,7 +413,10 @@ public class ModAseguradora extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(pnlDatosModAseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDirMod)
-                    .addComponent(txtDirMod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDirMod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlDatosModAseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblMailRegAse1)
+                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -539,6 +557,7 @@ public class ModAseguradora extends javax.swing.JFrame {
                 String Telefono;
                 String Mail;
                 String Mensaje="";
+                String Estado;
 
                 String sSQL="";
 
@@ -549,6 +568,7 @@ public class ModAseguradora extends javax.swing.JFrame {
                 Gerente = txtGerMod.getText();
                 Telefono = txtTelMod.getText();
                 Mail = txtMailMod.getText();
+                Estado=cmbEstado.getSelectedItem().toString().substring(0,1);
 
                 if(Codigo_Emp.equals("")||Nombre_Emp.equals("")||Ciudad.equals("")||
                     Direccion.equals("")||Gerente.equals("")||Mail.equals("")||Telefono.equals("")){
@@ -562,7 +582,7 @@ public class ModAseguradora extends javax.swing.JFrame {
 
                     else{
 
-                        sSQL = "UPDATE aseguradora SET nom_emp = '"+Nombre_Emp+"', ciu='"+Ciudad+"', dir='"+Direccion+"', ger='"+Gerente+"', telf='"+Telefono+"', mail='"+Mail+"'";
+                        sSQL = "UPDATE aseguradora SET nom_emp = '"+Nombre_Emp+"', ciu='"+Ciudad+"', dir='"+Direccion+"', ger='"+Gerente+"', telf='"+Telefono+"', mail='"+Mail+"'"+", estado='"+Estado+"'";
                         sSQL = sSQL+ "WHERE cod_emp = '"+Codigo_Emp+"'";
 
                         Statement st = cn.createStatement();
@@ -723,12 +743,14 @@ public class ModAseguradora extends javax.swing.JFrame {
     private javax.swing.JButton btnModMosAse;
     private javax.swing.JButton btnMostarModAse;
     private javax.swing.JButton btnSalirModAse;
+    private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JLabel lblCiuMod;
     private javax.swing.JLabel lblCodEmpMod;
     private javax.swing.JLabel lblDirMod;
     private javax.swing.JLabel lblGerMod;
     private javax.swing.JLabel lblIconoMod;
     private javax.swing.JLabel lblMailMod;
+    private javax.swing.JLabel lblMailRegAse1;
     private javax.swing.JLabel lblNomEmpMod;
     private javax.swing.JLabel lblTelMod;
     private javax.swing.JLabel lblTituloModAse;

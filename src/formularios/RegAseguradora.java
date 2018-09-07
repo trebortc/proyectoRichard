@@ -82,6 +82,8 @@ public class RegAseguradora extends javax.swing.JFrame {
         lblCodRegAse = new javax.swing.JLabel();
         txtCodRegAse = new javax.swing.JTextField();
         btnIngProEmp = new javax.swing.JButton();
+        lblMailRegAse1 = new javax.swing.JLabel();
+        cmbEstado = new javax.swing.JComboBox<>();
         btnCancelarRegAse = new javax.swing.JButton();
         btnSalirRegAse = new javax.swing.JButton();
         btnGuardarRegAse = new javax.swing.JButton();
@@ -179,6 +181,10 @@ public class RegAseguradora extends javax.swing.JFrame {
             }
         });
 
+        lblMailRegAse1.setText("Estado");
+
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+
         javax.swing.GroupLayout pnlDatosRegAseLayout = new javax.swing.GroupLayout(pnlDatosRegAse);
         pnlDatosRegAse.setLayout(pnlDatosRegAseLayout);
         pnlDatosRegAseLayout.setHorizontalGroup(
@@ -211,13 +217,16 @@ public class RegAseguradora extends javax.swing.JFrame {
                                     .addComponent(lblGerRegAse, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtGerRegAse, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlDatosRegAseLayout.createSequentialGroup()
-                                    .addGap(92, 92, 92)
-                                    .addComponent(txtMailRegAse, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(pnlDatosRegAseLayout.createSequentialGroup()
                                     .addComponent(lblTelfRegAse, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtTelfRegAse, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                                    .addComponent(txtTelfRegAse, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlDatosRegAseLayout.createSequentialGroup()
+                                    .addComponent(lblMailRegAse1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(42, 42, 42)
+                                    .addGroup(pnlDatosRegAseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtMailRegAse, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                        .addComponent(cmbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                         .addGap(21, 21, 21))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDatosRegAseLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -261,7 +270,10 @@ public class RegAseguradora extends javax.swing.JFrame {
                     .addGroup(pnlDatosRegAseLayout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(lblDirRegAse))
-                    .addComponent(txtDirRegAse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDatosRegAseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtDirRegAse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblMailRegAse1)
+                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnIngProEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -388,6 +400,7 @@ public class RegAseguradora extends javax.swing.JFrame {
             String Ger;
             String Telf;
             String Mail;
+            String Estado;
 
 
             Cod_Emp = txtCodRegAse.getText();
@@ -397,6 +410,7 @@ public class RegAseguradora extends javax.swing.JFrame {
             Ger = txtGerRegAse.getText();
             Telf = txtTelfRegAse.getText();
             Mail = txtMailRegAse.getText();
+            Estado = cmbEstado.getSelectedItem().toString().substring(0,1);
             
             if(Nom_Em.equals("")||Ciu.equals("")||Dir.equals("")||Ger.equals("")||Telf.equals("")||Mail.equals("")){
                 JOptionPane.showMessageDialog(null, "Llene todos los campos requeridos");
@@ -411,8 +425,8 @@ public class RegAseguradora extends javax.swing.JFrame {
                     try
                     {
                 
-                    sSQL = "INSERT INTO aseguradora(cod_emp, nom_emp, ciu, dir, ger, telf, mail)"
-                            + "VALUES(?, ?, ?, ?, ?, ?, ?)";
+                    sSQL = "INSERT INTO aseguradora(cod_emp, nom_emp, ciu, dir, ger, telf, mail,estado)"
+                            + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
                     Mensaje ="DATOS GUARDADOS DE FORMA CORRECTA";
 
@@ -425,6 +439,7 @@ public class RegAseguradora extends javax.swing.JFrame {
                     pst.setString(5, Ger);
                     pst.setString(6, Telf);
                     pst.setString(7, Mail);
+                    pst.setString(8, Estado);
 
                     int n = pst.executeUpdate();
 
@@ -573,12 +588,14 @@ public class RegAseguradora extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardarRegAse;
     private javax.swing.JButton btnIngProEmp;
     private javax.swing.JButton btnSalirRegAse;
+    private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JLabel lblCiuRegAse;
     private javax.swing.JLabel lblCodRegAse;
     private javax.swing.JLabel lblDirRegAse;
     private javax.swing.JLabel lblGerRegAse;
     private javax.swing.JLabel lblIconoRegAse;
     private javax.swing.JLabel lblMailRegAse;
+    private javax.swing.JLabel lblMailRegAse1;
     private javax.swing.JLabel lblNomRegAse;
     private javax.swing.JLabel lblTelfRegAse;
     private javax.swing.JLabel lblTituloRegAse;

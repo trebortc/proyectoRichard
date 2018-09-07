@@ -48,7 +48,7 @@ DefaultComboBoxModel proforma;
             ConexionMySQL mysql = new ConexionMySQL();
             Connection cn = mysql.Conectar();
    
-            sSQL = "SELECT nom_emp FROM aseguradora";
+            sSQL = "SELECT nom_emp FROM aseguradora where estado='A'";
 
             Statement st = (Statement) cn.createStatement();
             ResultSet rs = st.executeQuery(sSQL);
