@@ -18,7 +18,7 @@ public class ConexionMySQL
     public String db = "agenciaavendano";
     public String url = "jdbc:mysql://localhost/"+db;
     public String user = "root";
-    public String pass = "1234";
+    public String pass = "";
 
 
 

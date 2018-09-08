@@ -719,16 +719,25 @@ public class ModProducto extends javax.swing.JFrame {
                 String Anio = txtAnioModPro.getText();
                 String Color = txtColorModPro.getText();
                 String Valor = txtValorModPro.getText();
-                imagen = null;
-                imagen2 = null;
-                imagen3 = null;
-                imagen4 = null;
+//                imagen = null;
+//                imagen2 = null;
+//                imagen3 = null;
+//                imagen4 = null;
                 
                 if (bandera){
-                    imagen = Metodos.datosImagen(ImgProducto.fichero);
-                    imagen2 = Metodos.datosImagen(ImgProducto2.fichero);
-                    imagen3 = Metodos.datosImagen(ImgProducto3.fichero);
-                    imagen4 = Metodos.datosImagen(ImgProducto4.fichero);
+                    
+                    if(ImgProducto.fichero!=null){
+                        imagen = Metodos.datosImagen(ImgProducto.fichero);
+                    }
+                    if(ImgProducto2.fichero!=null){
+                        imagen2 = Metodos.datosImagen(ImgProducto2.fichero);    
+                    }
+                    if(ImgProducto3.fichero!=null){
+                        imagen3 = Metodos.datosImagen(ImgProducto3.fichero);
+                    }
+                    if(ImgProducto4.fichero!=null){
+                        imagen4 = Metodos.datosImagen(ImgProducto4.fichero);
+                    }
                 }
                 
                 ConexionMySQL mysql = new ConexionMySQL();
@@ -745,15 +754,14 @@ public class ModProducto extends javax.swing.JFrame {
                     }
 
                     else{
-                
-                if(!bandera)        {
-                    sSQL = "UPDATE vehiculo SET tip = '"+Tipo+"', mar = '"+Marca+"', modelo = '"+Modelo+"', anio='"+Anio+"', col='"+Color+"', val='"+Valor+"'";
-                    sSQL = sSQL+ "WHERE matri_vehi = '"+Codigo_V+"'";
-                }
-                else{
-                    sSQL = "UPDATE vehiculo SET tip = '"+Tipo+"', mar = '"+Marca+"', modelo = '"+Modelo+"', anio='"+Anio+"', col='"+Color+"', val='"+Valor+"', imagen='"+imagen+"', imagen2='"+imagen2+"', imagen3='"+imagen3+"', imagen4='"+imagen4+"'";
-                    sSQL = sSQL+ " WHERE matri_vehi = '"+Codigo_V+"'";
-                }
+                    if(!bandera){
+                        sSQL = "UPDATE vehiculo SET tip = '"+Tipo+"', mar = '"+Marca+"', modelo = '"+Modelo+"', anio='"+Anio+"', col='"+Color+"', val='"+Valor+"'";
+                        sSQL = sSQL+ " WHERE matri_vehi = '"+Codigo_V+"'";
+                    }
+                    else{
+                        sSQL = "UPDATE vehiculo SET tip = '"+Tipo+"', mar = '"+Marca+"', modelo = '"+Modelo+"', anio='"+Anio+"', col='"+Color+"', val='"+Valor+"', imagen='"+imagen+"', imagen2='"+imagen2+"', imagen3='"+imagen3+"', imagen4='"+imagen4+"'";
+                        sSQL = sSQL+ " WHERE matri_vehi = '"+Codigo_V+"'";
+                    }
                 Mensaje ="DATOS MODIFICADOS DE FORMA CORRECTA";
                 Statement st = cn.createStatement();
                 int n = st.executeUpdate(sSQL);
